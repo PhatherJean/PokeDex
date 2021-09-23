@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navi_graph"
+    app:startDestination="@id/pokeCardFragment">
+
+    <fragment
+        android:id="@+id/pokeCardFragment"
+        android:name="com.phatherjay.pokedex.view.PokeCardFragment"
+        android:label="fragment_poke_mon"
+        tools:layout="@layout/fragment_poke_mon" />
+</navigation>
