@@ -14,8 +14,8 @@ interface PokeDao
     fun getAll(): Flow<List<Pokedex>>
 
     @Insert
-    suspend fun insertAll(vararg kat: Pokedex)
+    suspend fun insertAll(vararg pokedex: Pokedex)
 
     @Update
-    suspend fun updateAll(kat: Pokedex)
+    suspend fun updateAll(pokedex: Pokedex)
 }

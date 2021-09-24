@@ -20,8 +20,8 @@ import javax.inject.Inject
 class PokeViewModel @Inject constructor(
     private val repo : PokeRepo
 ) : ViewModel() {
-    private val _pokeState = MutableLiveData<ApiState<List<Pokedex>>>()
-    val pokeState: LiveData<ApiState<List<Pokedex>>>
+    private val _pokeState = MutableLiveData<ApiState<Pokedex>>()
+    val pokeState: LiveData<ApiState<Pokedex>>
         get() = _pokeState
 
     var pokeQue: PokeQue? = null
@@ -29,15 +29,11 @@ class PokeViewModel @Inject constructor(
     private var currentPage = -1
     private var isNextPage = false
 
-    private fun getPokemon(pokeQue: PokeQue) {
+    private fun getPokemon() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.getPokeState(pokeQue).collect{ poke ->
-                val state = if (poke.isNullOrEmpty()) ApiState.Failure("Did not load")
-                else {
-                    Log.e("PokeState data", "$poke")
-                    ApiState.Success(poke)
-                }
-                _pokeState.postValue(state)
+            repo.getPokeState().collect{ poke ->
+
+                _pokeState.postValue(poke as ApiState<Pokedex>?)
             }
         }
     }
@@ -55,7 +51,7 @@ class PokeViewModel @Inject constructor(
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
             if (shouldFetchPage) {
                 currentPage = poke.page!!
-                getPokemon(poke)
+                getPokemon()
             }
         }
     }
