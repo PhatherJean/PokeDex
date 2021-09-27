@@ -24,48 +24,37 @@ class PokeRepo @Inject constructor(
 //            pokeDao.insertAll(*pokeResp.body()!!.toTypedArray())
 //        return pokeFlow
 //    }
-    fun getPokeState() = flow {
+    fun getPokeState(pokeQue: PokeQue) = flow {
         Log.e(TAG, "api loading state")
         emit(ApiState.Loading)
 
-        val pokeResponse = pokedexService.getCards()
-        Log.e(TAG, "${pokeResponse.body()}")
 
-        if (pokeResponse.isSuccessful){
-            Log.e(TAG, "PokeResponse is successful")
-            if (pokeResponse.body()!=null){
-                Log.e(TAG,"Api End of page")
-                ApiState.EndOfPage
+        val state = if(pokeQue.page != null) {
+            val pokeResponse = pokedexService.getCards(pokeQue.asQueryMap)
+            if (pokeResponse.isSuccessful){
+                Log.e(TAG, "Response is successful")
+                if (pokeResponse.body() == null){
+                    ApiState.EndOfPage
+                }else {
+                    Log.e(TAG, "getPokeState: Success")
+                    ApiState.Success(pokeResponse.body())
+                }
             } else {
-                Log.e(TAG, "Successfully got data")
-                ApiState.Success(pokeResponse.body())
+                Log.e(TAG, "getPokeState is a failure")
+                ApiState.Failure("error fetching data")
             }
-        } else {
-            Log.e(TAG,"Unable to get data")
-            ApiState.Failure("Error Getting Data")
-        }
-        if (pokeResponse.body()==null){
-            Log.e(TAG, "You goofed up somewhere back there")
-        } else {
-            emit(pokeResponse.body())
-        }
+        }else ApiState.Failure("Endpoint is a dud")
+        emit(state)
 }
 
-//private val PokeQue.asQueryMap: Map<String, Any?>
-//    get() = listOfNotNull(
-//        "pageSize" to pageSize,
-//        page?.let { "page" to it }
-//    ).toMap()
+private val PokeQue.asQueryMap: Map<String, Any>
+    get() = listOfNotNull(
+        pageSize?.let { "pageSize" to it },
+        page?.let { "page" to it }
+    ).toMap()
 
     companion object {
         const val TAG = "REPO"
     }
 }
 
-private fun <T> Response<List<T>>.getApiState(): ApiState<List<T>> {
-    return if (isSuccessful)
-    {
-        if (body().isNullOrEmpty()) { ApiState.EndOfPage }
-        else { ApiState.Success(body()!!) }
-    } else { ApiState.Failure("Error fetching data.") }
-}

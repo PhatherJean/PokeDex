@@ -29,11 +29,11 @@ class PokeViewModel @Inject constructor(
     private var currentPage = -1
     private var isNextPage = false
 
-    private fun getPokemon() {
+    private fun getPokemon(pokeQue: PokeQue) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.getPokeState().collect{ poke ->
+            repo.getPokeState(pokeQue).collect{ poke ->
                 Log.e(TAG, "getPokemon() ")
-//                _pokeState.postValue(poke)
+                _pokeState.postValue(poke as ApiState<Pokedex>?)
             }
         }
     }
@@ -51,13 +51,13 @@ class PokeViewModel @Inject constructor(
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
             if (shouldFetchPage) {
                 currentPage = poke.page!!
-                getPokemon()
+                getPokemon(pokeQue!!)
             }
         }
     }
 
     private fun PageAction.update(page: Int) = when (this) {
-        PageAction.FIRST -> 0
+        PageAction.FIRST -> pokeQue?.page ?: 1
         PageAction.NEXT -> page.inc()
         PageAction.PREVIOUS -> if (page > 0) page.dec() else page
     }
