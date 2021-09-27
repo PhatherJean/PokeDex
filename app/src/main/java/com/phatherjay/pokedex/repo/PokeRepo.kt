@@ -17,13 +17,16 @@ class PokeRepo @Inject constructor(
     private val pokedexService: PokedexService,
     private val pokeDao: PokeDao
 ) {
-    //    suspend fun getPokeState(pokeQue: PokeQue) : Flow<List<Pokedex>>{
-//        val pokeFlow = pokeDao.getAll()
-//        val pokeResp = pokedexService.getCards(pokeQue.asQueryMap)
-//        if (!pokeResp.body().isNullOrEmpty())
+    suspend fun getFaveState(pokeQue: PokeQue) : Flow<Pokedex>{
+        val pokeFlow = pokeDao.getAll()
+        val pokeResp = pokedexService.getCards(pokeQue.asQueryMap)
+        if (pokeResp.body()!= null) {
 //            pokeDao.insertAll(*pokeResp.body()!!.toTypedArray())
-//        return pokeFlow
-//    }
+        }
+        return pokeFlow
+    }
+
+
     fun getPokeState(pokeQue: PokeQue) = flow {
         Log.e(TAG, "api loading state")
         emit(ApiState.Loading)

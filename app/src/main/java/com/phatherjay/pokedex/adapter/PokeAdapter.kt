@@ -8,6 +8,8 @@ import com.phatherjay.pokedex.databinding.PokeCardBinding
 import com.phatherjay.pokedex.model.Data
 import com.phatherjay.pokedex.model.Pokedex
 import com.phatherjay.pokedex.utils.loadWithGlide
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class PokeAdapter(private val pokeList: MutableList<Data> = mutableListOf()) : RecyclerView.Adapter<PokeAdapter.PokeViewHolder>() {
 

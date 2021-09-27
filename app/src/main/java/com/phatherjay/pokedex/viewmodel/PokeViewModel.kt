@@ -45,21 +45,21 @@ class PokeViewModel @Inject constructor(
     }
 
     fun fetchPokeData(pageAction: PageAction) {
+        currentPageAction = pageAction
         if (_pokeState.value !is ApiState.Loading) pokeQue?.let { poke ->
-            currentPageAction = pageAction
             poke.page = pageAction.update(poke.page ?: -1)
             val shouldFetchPage = isNextPage || pageAction == PageAction.FIRST
             if (shouldFetchPage) {
                 currentPage = poke.page!!
-                getPokemon(pokeQue!!)
+                getPokemon(poke)
             }
         }
     }
 
     private fun PageAction.update(page: Int) = when (this) {
-        PageAction.FIRST -> pokeQue?.page ?: 1
+        PageAction.FIRST -> pokeQue?.page ?: 0
         PageAction.NEXT -> page.inc()
-        PageAction.PREVIOUS -> if (page > 0) page.dec() else page
+        PageAction.PREV -> if (page > 0) page.dec() else page
     }
 
     companion object{

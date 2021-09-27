@@ -21,14 +21,14 @@ import com.phatherjay.pokedex.utils.PageAction
 import com.phatherjay.pokedex.viewmodel.PokeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PokeCardFragment : Fragment() {
 
     private var _binding : FragmentPokeMonBinding? = null
     private val binding get() = _binding!!
     private val pokeViewModel by activityViewModels<PokeViewModel>()
     private val pokeAdapter by lazy { PokeAdapter() }
-    private val pokeQue by lazy { PokeQue(1,5) }
+    private val pokeQue by lazy { PokeQue(2,5) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +50,7 @@ class PokeCardFragment : Fragment() {
                 if (!recyclerView.canScrollVertically(-1) && dy < 0) {
                     Toast.makeText(context,"TOP of PAGE",Toast.LENGTH_SHORT).show()
                 } else if (!recyclerView.canScrollVertically(1) && dy > 0) {
+                    Toast.makeText(context, "BOTTOM of PAGE", Toast.LENGTH_SHORT).show()
                     pokeViewModel.fetchPokeData(PageAction.NEXT)
                 }
             }
@@ -66,7 +67,6 @@ class PokeCardFragment : Fragment() {
     }
 
     private fun loadX(pokemon: List<Data>) = with(binding.rvList) {
-        Log.d("LoadX", "ApiState.Success: $pokemon")
         if (adapter == null) adapter = pokeAdapter
         pokeAdapter.updateList(pokemon)
     }
