@@ -21,7 +21,7 @@ class PokeAdapter(private val pokeList: MutableList<Pokedex> = mutableListOf()) 
     ) : RecyclerView.ViewHolder(binding.root){
 
         fun loadPokedex(pokedex: Pokedex)= with(binding){
-            pokedex.data?.images?.small?.let { ivPokePic.loadWithGlide(it) }
+//            pokedex.data?.images?.small?.let { ivPokePic.loadWithGlide(it) }
         }
 
 

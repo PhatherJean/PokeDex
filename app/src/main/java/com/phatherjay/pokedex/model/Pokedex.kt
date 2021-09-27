@@ -8,7 +8,9 @@ import com.squareup.moshi.JsonClass
 @Entity
 @JsonClass(generateAdapter = true)
 data class Pokedex(
-    @PrimaryKey val id : String,
+    @PrimaryKey
+    val id : String = "1",
     @Json(name = "data")
-    val `data`: Data?
+    val data: List<Data?>
+
 )

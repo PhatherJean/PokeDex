@@ -32,14 +32,14 @@ class PokeViewModel @Inject constructor(
     private fun getPokemon() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.getPokeState().collect{ poke ->
-
-                _pokeState.postValue(poke as ApiState<Pokedex>?)
+                Log.e(TAG, "getPokemon() ")
+//                _pokeState.postValue(poke)
             }
         }
     }
 
     fun fetchPokeData(pokeQue: PokeQue) {
-        Log.e("FetchPokeData", "inside with pokeQue")
+        Log.e(TAG, "inside with pokeQue")
         this.pokeQue = pokeQue
         fetchPokeData(PageAction.FIRST)
     }
@@ -60,5 +60,9 @@ class PokeViewModel @Inject constructor(
         PageAction.FIRST -> 0
         PageAction.NEXT -> page.inc()
         PageAction.PREVIOUS -> if (page > 0) page.dec() else page
+    }
+
+    companion object{
+        private const val TAG = "POKE' VIEW MODEL"
     }
 }

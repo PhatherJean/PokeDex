@@ -23,12 +23,12 @@ class PokeConvertors{
     }
 
     @TypeConverter
-    fun dataToString(something: Data) : String? {
-        return getGenericAdapterTwo<Data>().toJson(something)
+    fun dataToString(something: List<Data>) : String? {
+        return getGenericAdapter<Data>()?.toJson(something)
     }
 
     @TypeConverter
-    fun stringToData(data: String?) : Data? {
-        return data?.let { getGenericAdapterTwo<Data>().fromJson(it) }
+    fun stringToData(data: String?) : List<Data>? {
+        return data?.let { getGenericAdapter<Data>()?.fromJson(it) }
     }
 }

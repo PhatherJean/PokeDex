@@ -19,13 +19,5 @@ data class Data(
     val number: String?,
     val rarity: String?,
     val resistances: List<Resistance>?,
-    @Json(name = "retreatCost")
-    val retreatCost: List<String>?,
-    @Json(name = "subtypes")
-    val subtypes: List<String>?,
-    @Json(name = "supertype")
-    val supertype: String?,
-    @Json(name = "types")
-    val types: List<String>?,
     val weaknesses: List<Weaknesse>?
 )
