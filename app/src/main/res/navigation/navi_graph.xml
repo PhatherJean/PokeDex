@@ -9,5 +9,18 @@
         android:id="@+id/pokeCardFragment"
         android:name="com.phatherjay.pokedex.view.PokeCardFragment"
         android:label="fragment_poke_mon"
-        tools:layout="@layout/fragment_poke_mon" />
+        tools:layout="@layout/fragment_poke_mon" >
+        <action
+            android:id="@+id/action_pokeCardFragment_to_pokemonSettings"
+            app:destination="@id/pokemonSettings"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@anim/bottom_sheet_slide_in"
+            app:popExitAnim="@anim/bottom_sheet_slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonSettings"
+        android:name="com.phatherjay.pokedex.view.PokemonSettings"
+        android:label="fragment_poke_mon_settings"
+        tools:layout="@layout/fragment_poke_mon_settings" />
 </navigation>

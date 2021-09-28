@@ -16,19 +16,23 @@ import com.phatherjay.pokedex.adapter.PokeAdapter
 import com.phatherjay.pokedex.databinding.FragmentPokeMonBinding
 import com.phatherjay.pokedex.model.Data
 import com.phatherjay.pokedex.model.requests.PokeQue
+import com.phatherjay.pokedex.repo.local.utils.UserPrefManager
 import com.phatherjay.pokedex.utils.ApiState
 import com.phatherjay.pokedex.utils.PageAction
 import com.phatherjay.pokedex.viewmodel.PokeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PokeCardFragment : Fragment() {
 
+    @Inject lateinit var upm : UserPrefManager
     private var _binding : FragmentPokeMonBinding? = null
     private val binding get() = _binding!!
     private val pokeViewModel by activityViewModels<PokeViewModel>()
     private val pokeAdapter by lazy { PokeAdapter() }
-    private val pokeQue by lazy { PokeQue(2,10) }
+    private val pokeQue : PokeQue? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,9 +43,14 @@ class PokeCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (pokeViewModel.pokeQue == null) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-//
-//        }
+        if (pokeViewModel.pokeQue == null) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            upm.pokeQue.collect {
+                if (it == null) findNavController().navigate(
+                    PokeCardFragmentDirections.actionPokeCardFragmentToPokemonSettings()
+                )
+                else pokeViewModel.fetchPokeData(it)
+            }
+        }
         initViews()
         setupObservers()
     }
@@ -58,7 +67,9 @@ class PokeCardFragment : Fragment() {
                 }
             }
         })
-        pokeViewModel.fetchPokeData(pokeQue)
+        if (pokeQue != null) {
+            pokeViewModel.fetchPokeData(pokeQue)
+        }
     }
 
     private fun setupObservers() = with(pokeViewModel) {
