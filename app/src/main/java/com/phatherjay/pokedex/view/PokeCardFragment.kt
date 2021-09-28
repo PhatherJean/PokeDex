@@ -28,7 +28,7 @@ class PokeCardFragment : Fragment() {
     private val binding get() = _binding!!
     private val pokeViewModel by activityViewModels<PokeViewModel>()
     private val pokeAdapter by lazy { PokeAdapter() }
-    private val pokeQue by lazy { PokeQue(2,5) }
+    private val pokeQue by lazy { PokeQue(2,10) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,6 +39,9 @@ class PokeCardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        if (pokeViewModel.pokeQue == null) viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+//
+//        }
         initViews()
         setupObservers()
     }
