@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <TextView
+
+
+    <ImageView
         android:id="@+id/tv_poke_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

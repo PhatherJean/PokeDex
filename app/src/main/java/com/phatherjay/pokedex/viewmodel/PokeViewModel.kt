@@ -59,7 +59,7 @@ class PokeViewModel @Inject constructor(
     }
 
     private fun PageAction.update(page: Int) = when(this) {
-        PageAction.FIRST -> pokeQue?.page ?: 0
+        PageAction.FIRST -> pokeQue?.page ?: 1
         PageAction.NEXT -> page.inc()
         PageAction.PREV -> if (page > 0) page.dec() else page
     }

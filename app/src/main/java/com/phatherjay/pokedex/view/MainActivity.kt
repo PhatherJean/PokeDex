@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import com.phatherjay.pokedex.R
 import com.phatherjay.pokedex.databinding.ActivityMainBinding
+import com.phatherjay.pokedex.utils.ImageUrls
+import com.phatherjay.pokedex.utils.loadWithGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,5 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.tvPokeTitle.loadWithGlide(ImageUrls.banner)
     }
 }

@@ -1,15 +1,12 @@
 package com.phatherjay.pokedex.repo
 
 import android.util.Log
-import com.phatherjay.pokedex.model.Pokedex
 import com.phatherjay.pokedex.model.requests.PokeQue
 import com.phatherjay.pokedex.repo.local.dao.PokeDao
 import com.phatherjay.pokedex.utils.ApiState
 import com.phatherjay.pokedex.repo.remote.PokedexService
 import dagger.hilt.android.scopes.ViewModelScoped
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -17,20 +14,19 @@ class PokeRepo @Inject constructor(
     private val pokedexService: PokedexService,
     private val pokeDao: PokeDao
 ) {
-    suspend fun getFaveState(pokeQue: PokeQue) : Flow<Pokedex>{
-        val pokeFlow = pokeDao.getAll()
-        val pokeResp = pokedexService.getCards(pokeQue.asQueryMap)
-        if (pokeResp.body()!= null) {
+//    suspend fun getFaveState(pokeQue: PokeQue) : Flow<Pokedex>{
+//        val pokeFlow = pokeDao.getAll()
+//        val pokeResp = pokedexService.getCards(pokeQue.asQueryMap)
+//        if (pokeResp.body()!= null) {
 //            pokeDao.insertAll(*pokeResp.body()!!.toTypedArray())
-        }
-        return pokeFlow
-    }
+//        }
+//        return pokeFlow
+//    }
 
 
     fun getPokeState(pokeQue: PokeQue) = flow {
         Log.e(TAG, "api loading state")
         emit(ApiState.Loading)
-
 
         val state = if(pokeQue.page != null) {
             val pokeResponse = pokedexService.getCards(pokeQue.asQueryMap)

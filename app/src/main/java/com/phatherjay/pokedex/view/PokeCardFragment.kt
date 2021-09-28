@@ -32,7 +32,7 @@ class PokeCardFragment : Fragment() {
     private val binding get() = _binding!!
     private val pokeViewModel by activityViewModels<PokeViewModel>()
     private val pokeAdapter by lazy { PokeAdapter() }
-    private val pokeQue : PokeQue? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,9 +67,6 @@ class PokeCardFragment : Fragment() {
                 }
             }
         })
-        if (pokeQue != null) {
-            pokeViewModel.fetchPokeData(pokeQue)
-        }
     }
 
     private fun setupObservers() = with(pokeViewModel) {
