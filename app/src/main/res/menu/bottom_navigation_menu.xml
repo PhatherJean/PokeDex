@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pokeCardFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="Poke'mon Cards" />
+    <item
+        android:id="@+id/pokemonSettings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="Setting" />
+    <item
+        android:id="@+id/pokeFavFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite"
+        android:title="Poke' Favs"/>
+</menu>

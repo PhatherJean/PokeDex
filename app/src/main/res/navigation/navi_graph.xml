@@ -12,15 +12,19 @@
         tools:layout="@layout/fragment_poke_mon" >
         <action
             android:id="@+id/action_pokeCardFragment_to_pokemonSettings"
-            app:destination="@id/pokemonSettings"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@anim/bottom_sheet_slide_in"
-            app:popExitAnim="@anim/bottom_sheet_slide_out" />
+            app:destination="@id/pokemonSettings" />
+        <action
+            android:id="@+id/action_pokeCardFragment_to_pokeFavFragment"
+            app:destination="@id/pokeFavFragment" />
     </fragment>
     <fragment
         android:id="@+id/pokemonSettings"
         android:name="com.phatherjay.pokedex.view.PokemonSettings"
         android:label="fragment_poke_mon_settings"
         tools:layout="@layout/fragment_poke_mon_settings" />
+    <fragment
+        android:id="@+id/pokeFavFragment"
+        android:name="com.phatherjay.pokedex.view.PokeFavFragment"
+        android:label="fragment_poke_favs"
+        tools:layout="@layout/fragment_poke_favs" />
 </navigation>

@@ -49,25 +49,8 @@ class PokemonSettings : Fragment(R.layout.fragment_poke_mon_settings) {
 
         fun myEnter() {
             binding.tvQueryName.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    Toast.makeText(
-                        context,
-                        "Need Limit",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    val queries = getPokeQue()
-                    viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                        context?.dataStore?.edit { settings ->
-                            queries.pageSize?.let {
-                                settings[PreferenceKeys.PAGESIZE] = it
-                            }
-                            settings[PreferenceKeys.PAGE]
-                            settings[PreferenceKeys.QUERY]
-                        }
-                    }
-                    pokeViewModel.fetchPokeData(queries)
-                    findNavController().navigateUp()
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                    passThru()
                     return@OnKeyListener true
                 } else {
                     false
@@ -76,16 +59,31 @@ class PokemonSettings : Fragment(R.layout.fragment_poke_mon_settings) {
         }
 
 
+        myEnter()
         pokeViewModel.pokeQue?.let { sliderPoke.value = (it.pageSize?.toFloat()!!) }
         sliderPoke.addOnChangeListener { _, _, _ -> toggleSubmit() }
-        btnSubmit.setOnClickListener {
-        myEnter()
-        }
+        btnSubmit.setOnClickListener {passThru()}
     }
 
     private fun toggleSubmit() {
         Log.e(TAG, "toggleSubmit: ${validateQuery()}")
         binding.btnSubmit.isVisible = validateQuery()
+    }
+
+    private fun passThru() {
+
+        val queries = getPokeQue()
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            context?.dataStore?.edit { settings ->
+                queries.pageSize?.let {
+                    settings[PreferenceKeys.PAGESIZE] = it
+                }
+                settings[PreferenceKeys.PAGE]
+                settings[PreferenceKeys.QUERY]
+            }
+        }
+        pokeViewModel.fetchPokeData(queries)
+        findNavController().navigateUp()
     }
 
     private fun validateQuery(): Boolean {

@@ -79,6 +79,7 @@ class PokeCardFragment : Fragment() {
 
     private fun loadX(pokemon: List<Data>) = with(binding.rvList) {
         if (adapter == null) adapter = pokeAdapter
+        pokeAdapter.clear()
         pokeAdapter.updateList(pokemon)
     }
 

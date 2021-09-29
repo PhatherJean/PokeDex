@@ -57,6 +57,8 @@
     <!--color on surface (dark), color on surface (dark)-->
     <color name="white_50">#ffffff</color>
 
+    <color name="poke_gold_100">#e8ce0f</color>
+    <color name="poke_blue_100">#1976D2</color>
     <color name="black_800">#121212</color> <!--Color surface (dark)-->
     <!--Color on secondary (light), color on background (light),-->
     <!--color on surface (light)-->

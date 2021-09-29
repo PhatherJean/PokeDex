@@ -26,15 +26,35 @@ class PokeAdapter(private val pokeList: MutableList<Data> = mutableListOf()) : R
         notifyItemRangeInserted(positionStart, poke.size)
     }
 
+    fun clear() {
+        val listSize = pokeList.size
+        pokeList.clear()
+        notifyItemRangeRemoved(0, listSize)
+    }
+
     class PokeViewHolder(
         private val binding: PokeCardBinding
     ) : RecyclerView.ViewHolder(binding.root){
 
         fun loadPokedex(pokePic : Data)= with(binding){
-            mtvPokeName.setText(pokePic.name)
             pokePic.images?.large?.let {
-                Log.e("lPd", "loadPokedex: $it", )
-                ivPokePic.loadWithGlide(it) }
+                ivPokePic.loadWithGlide(it)
+            }
+        }
+
+
+        fun loadFavs(favs: Data)= with(binding){
+            cbPokeBall.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    Log.e("FAVORITES", "loadPokedex: ${favs.name} is checked")
+                    favs.images?.large?.let {
+                        ivPokePic.loadWithGlide(it)
+                    }
+                }
+                else {
+                    Log.e("FAVORITES", "loadPokedex: ${favs.name} is unchecked" )
+                }
+            }
         }
 
 

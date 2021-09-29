@@ -3,6 +3,7 @@ package com.phatherjay.pokedex.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.phatherjay.pokedex.R
 import com.phatherjay.pokedex.databinding.ActivityMainBinding
 import com.phatherjay.pokedex.utils.ImageUrls
@@ -19,5 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.tvPokeTitle.loadWithGlide(ImageUrls.banner)
+        binding.bottomNavigation.setupWithNavController(navHostFragment.navController)
     }
 }
