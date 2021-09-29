@@ -2,15 +2,16 @@ package com.phatherjay.pokedex.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.datastore.preferences.core.edit
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.phatherjay.pokedex.R
 import com.phatherjay.pokedex.databinding.FragmentPokeMonSettingsBinding
@@ -44,27 +45,46 @@ class PokemonSettings : Fragment(R.layout.fragment_poke_mon_settings) {
         initView()
     }
 
-    private fun initView()  = with(binding){
-        pokeViewModel.pokeQue?.let { sliderPoke.value = (it.pageSize?.toFloat() ?: 10) as Float }
+    private fun initView() = with(binding) {
+
+        fun myEnter() {
+            binding.tvQueryName.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    Toast.makeText(
+                        context,
+                        "Need Limit",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    val queries = getPokeQue()
+                    viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                        context?.dataStore?.edit { settings ->
+                            queries.pageSize?.let {
+                                settings[PreferenceKeys.PAGESIZE] = it
+                            }
+                            settings[PreferenceKeys.PAGE]
+                            settings[PreferenceKeys.QUERY]
+                        }
+                    }
+                    pokeViewModel.fetchPokeData(queries)
+                    findNavController().navigateUp()
+                    return@OnKeyListener true
+                } else {
+                    false
+                }
+            })
+        }
+
+
+        pokeViewModel.pokeQue?.let { sliderPoke.value = (it.pageSize?.toFloat()!!) }
         sliderPoke.addOnChangeListener { _, _, _ -> toggleSubmit() }
         btnSubmit.setOnClickListener {
-            val queries = getPokeQue()
-
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                it.context.dataStore.edit { settings ->
-                    queries.pageSize?.let {
-                        settings[PreferenceKeys.PAGESIZE] = it
-                    }
-                    settings[PreferenceKeys.PAGE]
-                }
-            }
-            pokeViewModel.fetchPokeData(queries)
-            findNavController().navigateUp()
+        myEnter()
         }
     }
 
-    private fun toggleSubmit(){
-        Log.e(TAG, "toggleSubmit: ${validateQuery()}", )
+    private fun toggleSubmit() {
+        Log.e(TAG, "toggleSubmit: ${validateQuery()}")
         binding.btnSubmit.isVisible = validateQuery()
     }
 
@@ -72,13 +92,14 @@ class PokemonSettings : Fragment(R.layout.fragment_poke_mon_settings) {
         val newQuery = getPokeQue()
         newQuery.page = 1
         return pokeViewModel.pokeQue?.let {
-            return@let   (it.pageSize != newQuery.pageSize && newQuery.pageSize!! >= 10)
-        } ?: (newQuery.pageSize != null && newQuery.pageSize!! >= 10)
+            return@let (it.pageSize != newQuery.pageSize && newQuery.pageSize!! >= 10)
+        } ?: (!newQuery.q.isNullOrBlank() && newQuery.pageSize!! >= 10)
     }
 
     private fun getPokeQue() = PokeQue(
         pageSize = binding.sliderPoke.value.toInt(),
-        page = pokeViewModel.pokeQue?.page
+        page = pokeViewModel.pokeQue?.page,
+        q = ("name:" + binding.tvQueryName.text.trim() + "*")
     )
     companion object { private const val TAG  = "Poke Settings" }
 }

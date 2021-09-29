@@ -4,30 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/ic_pokeball_bkgd"
     tools:context=".view.PokemonSettings">
 
     <LinearLayout
-        android:layout_width="366dp"
-        android:layout_height="217dp"
+        android:layout_width="383dp"
+        android:layout_height="277dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.072">
+        app:layout_constraintVertical_bias="0.599">
 
         <!-- Discrete slider -->
+
+        <TextView
+            android:id="@+id/label_for_slider"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:contentDescription="@string/label_slider"
+            android:ems="10"
+            android:gravity="center"
+            android:labelFor="@id/slider_poke"
+            android:text="@string/limit"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
+            android:textColor="@color/white_50"
+            android:textSize="40sp" />
+
         <com.google.android.material.slider.Slider
             android:id="@+id/slider_poke"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#055EB5"
             android:contentDescription="@string/slider_description"
             android:stepSize="10.0"
             android:valueFrom="0.0"
@@ -37,15 +49,30 @@
             app:trackColor="#E8CE0F"
             app:trackHeight="10dp" />
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_weight=".15"
+        <EditText
+            android:id="@+id/tv_query_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionSend"
+            android:background="@color/white_50"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:hint="@string/tv_name"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            android:textColor="@color/black_900"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
             android:backgroundTint="#1976D2"
+            android:text="@string/submit"
             android:textColor="#e8ce0f"
-            android:visibility="gone"
-            android:text="@string/submit" />
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

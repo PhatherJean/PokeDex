@@ -6,4 +6,7 @@
     <string name="slider_description">Amount of Pokemon cards returned</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_slider">Label for slider</string>
+    <string name="limit">Limit</string>
+    <string name="tv_name">Poke\'mon Name</string>
 </resources>

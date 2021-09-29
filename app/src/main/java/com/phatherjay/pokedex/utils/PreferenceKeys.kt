@@ -7,4 +7,5 @@ object PreferenceKeys {
     val FAVORITES = stringPreferencesKey("favorites")
     val PAGE = intPreferencesKey("page")
     val PAGESIZE = intPreferencesKey("pageSize")
+    val QUERY = stringPreferencesKey("q")
 }

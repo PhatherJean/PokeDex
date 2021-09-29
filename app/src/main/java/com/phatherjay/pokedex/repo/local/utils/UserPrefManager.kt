@@ -23,7 +23,8 @@ class UserPrefManager @Inject constructor(@ApplicationContext val context: Conte
             preferences[PreferenceKeys.FAVORITES]?.let {
                 PokeQue(
                     pageSize = preferences[PreferenceKeys.PAGESIZE] ?: 10,
-                    page = preferences[PreferenceKeys.PAGE] ?: 1
+                    page = preferences[PreferenceKeys.PAGE] ?: 1,
+                    q = preferences[PreferenceKeys.QUERY] ?: ""
                 )
             }
         }

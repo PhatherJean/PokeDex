@@ -49,7 +49,8 @@ class PokeRepo @Inject constructor(
 private val PokeQue.asQueryMap: Map<String, Any>
     get() = listOfNotNull(
         pageSize?.let { "pageSize" to it },
-        page?.let { "page" to it }
+        page?.let { "page" to it },
+        q?.let { "q" to it }
     ).toMap()
 
     companion object {
